@@ -1,0 +1,261 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Terminal from '../components/Terminal.astro';
+import RoleCard from '../components/RoleCard.astro';
+import {
+  profile,
+  headline,
+  summary,
+  metrics,
+  focusAreas,
+  experience,
+  earlierExperience,
+  skills,
+  education,
+  certifications,
+} from '../data/resume';
+---
+
+<Base>
+  <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+  <div class="relative overflow-hidden">
+    <div class="grid-backdrop pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+
+    <div class="mx-auto max-w-5xl px-5 pb-4 pt-16 sm:px-8 sm:pt-24">
+      <div class="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-14">
+        <div>
+          <p
+            class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11px] text-muted"
+          >
+            <span class="size-1.5 rounded-full bg-signal" aria-hidden="true"></span>
+            {profile.title} @ {profile.company}
+          </p>
+
+          <h1 class="mt-5 text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+            {profile.firstName}<span class="text-brand-400">.</span>{profile.lastName}
+          </h1>
+
+          <p class="mt-3 font-mono text-sm text-brand-300">{profile.discipline}</p>
+
+          <p class="mt-6 max-w-xl text-[16.5px] leading-relaxed text-muted">{headline}</p>
+
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href={profile.resumePdf}
+              class="rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-400"
+            >
+              Download résumé
+            </a>
+            <a
+              href="/resume"
+              class="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-brand-500/60 hover:bg-surface"
+            >
+              Read it here
+            </a>
+            <a
+              href={`mailto:${profile.email}`}
+              class="rounded-lg px-2 py-2.5 text-sm font-medium text-muted transition-colors hover:text-brand-300"
+            >
+              Get in touch →
+            </a>
+          </div>
+        </div>
+
+        <div class="min-w-0 lg:pl-4">
+          <Terminal />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ METRIC STRIP ══════════════════════════ -->
+  <div class="mx-auto max-w-5xl px-5 pt-12 sm:px-8">
+    <dl class="reveal grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
+      {
+        metrics.map((m) => (
+          <div class="bg-surface p-5">
+            <dt class="font-mono text-[11px] uppercase tracking-wider text-faint">{m.label}</dt>
+            <dd class="mt-1.5 text-2xl font-semibold tracking-tight text-brand-300">{m.value}</dd>
+            <p class="mt-1 text-xs leading-snug text-faint">{m.detail}</p>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <!-- ═════════════════════════════ ABOUT ═════════════════════════════ -->
+  <Section id="about" eyebrow="About" title="Platform engineering, and the teams that run it">
+    <div class="reveal max-w-3xl space-y-4">
+      {summary.map((p) => <p class="text-[15.5px] leading-relaxed text-muted">{p}</p>)}
+    </div>
+  </Section>
+
+  <!-- ═════════════════════════ FOCUS AREAS ══════════════════════════ -->
+  <Section
+    id="focus"
+    eyebrow="What I work on"
+    title="Focus areas"
+    lede="My work sits where platform reliability, cost, and compliance meet — usually all three at once."
+  >
+    <div class="grid gap-4 sm:grid-cols-2">
+      {
+        focusAreas.map((area) => (
+          <article class="reveal group rounded-xl border border-line bg-surface p-6 transition-colors hover:border-brand-500/50">
+            <h3 class="text-[15px] font-semibold text-ink">{area.label}</h3>
+            <p class="mt-2.5 text-[14px] leading-relaxed text-muted">{area.body}</p>
+            <ul class="mt-4 flex flex-wrap gap-1.5">
+              {area.tags.map((t) => (
+                <li class="rounded border border-line bg-raised px-2 py-0.5 font-mono text-[10.5px] text-faint">{t}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- ═════════════════════════ EXPERIENCE ═══════════════════════════ -->
+  <Section
+    id="experience"
+    eyebrow="Experience"
+    title="Twelve years, and one platform I grew up with"
+    lede="Four promotions in six years at Appian — individual contributor to manager of the team behind the platform I helped build."
+  >
+    <div class="space-y-12">
+      {
+        experience.map((employer) => (
+          <div>
+            <div class="reveal mb-6 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line pb-3">
+              <h3 class="text-lg font-semibold tracking-tight text-ink">
+                {employer.company}
+                {employer.note && <span class="ml-2 text-sm font-normal text-faint">({employer.note})</span>}
+              </h3>
+              <p class="font-mono text-xs text-faint">
+                {employer.start} – {employer.end} · {employer.location}
+              </p>
+            </div>
+            <ol class="space-y-8">
+              {employer.roles.map((role, i) => (
+                <RoleCard role={role} current={employer.end === 'Present' && i === 0} />
+              ))}
+            </ol>
+          </div>
+        ))
+      }
+
+      <div class="reveal">
+        <h3 class="mb-4 border-b border-line pb-3 text-lg font-semibold tracking-tight text-ink">Earlier</h3>
+        <ul class="space-y-3">
+          {
+            earlierExperience.map((job) => (
+              <li class="flex flex-wrap items-baseline gap-x-2 text-[14px] text-muted">
+                <span class="font-semibold text-ink">{job.company}</span>
+                <span class="text-faint">— {job.role},</span>
+                <span class="font-mono text-xs text-faint">
+                  {job.location} · {job.period}
+                </span>
+                <p class="w-full text-[13.5px] text-faint">{job.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ═══════════════════════════ SKILLS ═════════════════════════════ -->
+  <Section
+    id="skills"
+    eyebrow="Toolkit"
+    title="Skills"
+    lede="No percentage bars. Self-assigned proficiency scores are unfalsifiable — here is simply what I work with."
+  >
+    <dl class="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+      {
+        skills.map((group) => (
+          <div class="reveal grid gap-1 p-5 sm:grid-cols-[190px_1fr] sm:gap-4">
+            <dt class="font-mono text-[12px] font-semibold uppercase tracking-wider text-brand-300">{group.label}</dt>
+            <dd class="flex flex-wrap gap-x-2 gap-y-1.5 text-[14px] text-muted">
+              {group.items.map((item, i) => (
+                <span>
+                  {item}
+                  {i < group.items.length - 1 && <span class="ml-2 text-line select-none">·</span>}
+                </span>
+              ))}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Section>
+
+  <!-- ═══════════════════ EDUCATION & CERTIFICATIONS ═════════════════ -->
+  <Section id="education" eyebrow="Credentials" title="Education & certifications">
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="reveal rounded-xl border border-line bg-surface p-6">
+        <h3 class="font-mono text-[12px] uppercase tracking-wider text-brand-300">Education</h3>
+        <ul class="mt-4 space-y-4">
+          {
+            education.map((e) => (
+              <li>
+                <p class="text-[14.5px] font-semibold text-ink">{e.degree}</p>
+                <p class="text-[13.5px] text-muted">{e.school}</p>
+                <p class="mt-0.5 font-mono text-[11.5px] text-faint">
+                  {e.period} · {e.location}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="reveal rounded-xl border border-line bg-surface p-6">
+        <h3 class="font-mono text-[12px] uppercase tracking-wider text-brand-300">Certifications</h3>
+        <ul class="mt-4 space-y-3">
+          {
+            certifications.map((c) => (
+              <li class="flex items-baseline justify-between gap-3">
+                <span class="text-[14.5px] text-ink">{c.name}</span>
+                {'year' in c && c.year && <span class="font-mono text-[11.5px] text-faint">{c.year}</span>}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ══════════════════════════ CONTACT ═════════════════════════════ -->
+  <Section id="contact" eyebrow="Contact" title="Let's talk">
+    <div class="reveal rounded-xl border border-line bg-surface p-7 sm:p-9">
+      <p class="max-w-2xl text-[15.5px] leading-relaxed text-muted">
+        I'm most useful where reliability, cost, and compliance all matter at once, and where the expectation is to solve
+        that with engineering rather than headcount. Always happy to compare notes with people building cloud platforms
+        at scale.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href={`mailto:${profile.email}`}
+          class="rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-400"
+        >
+          {profile.email}
+        </a>
+        <a
+          href={profile.links.linkedin}
+          target="_blank"
+          rel="noopener"
+          class="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-brand-500/60"
+          >LinkedIn</a
+        >
+        <a
+          href={profile.links.github}
+          target="_blank"
+          rel="noopener"
+          class="rounded-lg border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-brand-500/60"
+          >GitHub</a
+        >
+      </div>
+    </div>
+  </Section>
+</Base>

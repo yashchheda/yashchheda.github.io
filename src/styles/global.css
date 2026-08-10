@@ -1,0 +1,214 @@
+@import 'tailwindcss';
+
+/* Self-hosted variable fonts: no Google Fonts request, so no third-party
+   round-trip and nothing leaks visitor IPs to a font CDN. */
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* ---------------------------------------------------------------------------
+   THEME TOKENS
+   Tailwind utilities resolve to var(--c-*), and the --c-* values are swapped
+   by [data-theme]. That means one utility class (e.g. bg-surface) is correct
+   in both themes and no `dark:` variants are needed anywhere in the markup.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', monospace;
+
+  /* Brand blue carried over from the LaTeX resume (#2C5F8A) so the PDF and the
+     site read as one identity. Lighter steps exist for dark-mode contrast. */
+  --color-brand-200: #b9d5ea;
+  --color-brand-300: #7fb3d9;
+  --color-brand-400: #4a8dbf;
+  --color-brand-500: #2c5f8a;
+  --color-brand-600: #21496b;
+
+  --color-signal: #3dd68c;
+  --color-warn: #f0b429;
+
+  /* Semantic tokens -> swapped per theme below. */
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-raised: var(--c-raised);
+  --color-line: var(--c-line);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+}
+
+/* Dark is the default. */
+:root {
+  --c-canvas: #080b10;
+  --c-surface: #0d1218;
+  --c-raised: #131b24;
+  --c-line: #1e2a36;
+  --c-ink: #e6edf5;
+  --c-muted: #93a4b6;
+  --c-faint: #5f7183;
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --c-canvas: #ffffff;
+  --c-surface: #f7f9fb;
+  --c-raised: #ffffff;
+  --c-line: #dfe6ee;
+  --c-ink: #131a22;
+  --c-muted: #4d5c6b;
+  --c-faint: #75838f;
+  color-scheme: light;
+}
+
+/* ---------------------------------------------------------------------------
+   BASE
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-brand-500);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Anchored sections shouldn't hide under the sticky header. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   UTILITIES
+--------------------------------------------------------------------------- */
+
+/* Faint blueprint grid — the "control plane" texture. Purely decorative. */
+.grid-backdrop {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 35%, transparent 78%);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-brand-300);
+}
+
+/* ---------------------------------------------------------------------------
+   SCROLL-DRIVEN REVEAL
+   Uses native CSS scroll-driven animations, so the whole effect costs zero
+   JavaScript. Browsers without support (and anyone with reduced-motion on)
+   simply get the finished state — never a blank page, which is the usual
+   failure mode of JS-driven reveal libraries.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Astro view transitions: keep them quick and non-distracting. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   PROSE (notes pages)
+--------------------------------------------------------------------------- */
+.prose-note {
+  color: var(--color-muted);
+  line-height: 1.75;
+}
+.prose-note h2,
+.prose-note h3 {
+  color: var(--color-ink);
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  line-height: 1.3;
+}
+.prose-note h2 { font-size: 1.35rem; }
+.prose-note h3 { font-size: 1.1rem; }
+.prose-note p { margin-bottom: 1.1em; }
+.prose-note a {
+  color: var(--color-brand-300);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-note ul { margin: 1em 0 1.3em; padding-left: 1.2em; list-style: disc; }
+.prose-note li { margin-bottom: 0.4em; }
+.prose-note code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--color-raised);
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+.prose-note pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  margin: 1.4em 0;
+}
+.prose-note pre code { background: none; border: 0; padding: 0; font-size: 0.84em; }
+
+/* ---------------------------------------------------------------------------
+   PRINT — the /resume page should print cleanly if anyone hits Cmd-P.
+--------------------------------------------------------------------------- */
+@media print {
+  :root {
+    --c-canvas: #fff;
+    --c-surface: #fff;
+    --c-raised: #fff;
+    --c-line: #ccc;
+    --c-ink: #000;
+    --c-muted: #222;
+    --c-faint: #555;
+  }
+  .no-print { display: none !important; }
+  .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+  a { text-decoration: none; color: #000; }
+}
