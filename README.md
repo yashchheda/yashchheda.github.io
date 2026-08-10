@@ -25,9 +25,9 @@ change a fact, change it in both places.
 
 ## Publishing notes
 
-- The internal GitLab host (`gitlab.appian-stratus.com`) must never appear in
-  this repo. Platform scale figures and the Stratus programme name are cleared
-  for publication; the internal repo URL is not.
+- The internal GitLab host must never appear in this repo. Platform scale
+  figures and the Stratus programme name are cleared for publication; the
+  internal repo URL and hostname are not.
 - No phone number: this site is indexed, and a public number attracts spam.
 
 ## Deployment

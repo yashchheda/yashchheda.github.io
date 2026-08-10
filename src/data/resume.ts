@@ -6,8 +6,8 @@
  * keeping them here means one edit updates the hero, the experience timeline,
  * the /resume page and the JSON-LD together.
  *
- * PUBLISHING NOTE: this file is public. The internal GitLab host
- * (gitlab.appian-stratus.com) is deliberately absent and must stay that way.
+ * PUBLISHING NOTE: this file is public. The internal GitLab host is
+ * deliberately absent and must stay that way.
  * Platform scale figures and the Stratus programme name are cleared for
  * publication; the internal repo URL is not.
  */
