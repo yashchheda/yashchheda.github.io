@@ -1,0 +1,111 @@
+---
+import { profile } from '../data/resume';
+
+const nav = [
+  { href: '/#focus', label: 'Focus' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#skills', label: 'Skills' },
+  { href: '/resume', label: 'Résumé' },
+  // Uncomment once your first note is published (drop `draft: true` from a file
+  // in src/content/notes/). Linking an empty section reads worse than no link.
+  // { href: '/notes', label: 'Notes' },
+];
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-line/80 bg-canvas/80 backdrop-blur-md"
+  transition:persist
+>
+  <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-5 sm:px-8">
+    <a href="/" class="group flex items-center gap-2.5 font-mono text-sm tracking-tight">
+      <span
+        class="grid size-7 place-items-center rounded-md border border-brand-500/50 bg-brand-500/10 text-[11px] font-semibold text-brand-300"
+        aria-hidden="true">YC</span
+      >
+      <span class="font-semibold text-ink">{profile.name}</span>
+    </a>
+
+    <div class="flex items-center gap-1">
+      <nav aria-label="Primary" class="hidden sm:block">
+        <ul class="flex items-center gap-1">
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="rounded-md px-3 py-2 text-sm text-muted transition-colors hover:bg-surface hover:text-ink"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <button
+        id="theme-toggle"
+        type="button"
+        class="ml-1 grid size-9 place-items-center rounded-md border border-line text-muted transition-colors hover:border-brand-500/60 hover:text-ink"
+        aria-label="Toggle colour theme"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path
+            id="theme-icon-path"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav: a plain scrollable row rather than a hamburger. Five links
+       do not justify a disclosure widget or the JS to run it. -->
+  <nav aria-label="Primary mobile" class="sm:hidden">
+    <ul class="flex items-center gap-1 overflow-x-auto border-t border-line/70 px-4 py-2 text-sm">
+      {
+        nav.map((item) => (
+          <li class="shrink-0">
+            <a href={item.href} class="rounded-md px-3 py-1.5 text-muted hover:text-ink">
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Delegated + re-bound on view transitions so the toggle keeps working
+  // after client-side navigation.
+  const MOON = 'M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z';
+  const SUN = 'M12 4V2m0 20v-2m8-8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 19.1l1.4-1.4m0-11.4L4.9 4.9m14.2 14.2-1.4-1.4M16 12a4 4 0 11-8 0 4 4 0 018 0z';
+
+  function syncIcon() {
+    const path = document.getElementById('theme-icon-path');
+    if (!path) return;
+    path.setAttribute('d', document.documentElement.dataset.theme === 'light' ? SUN : MOON);
+  }
+
+  function bind() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = 'true';
+    btn.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* ignore */
+      }
+      syncIcon();
+    });
+    syncIcon();
+  }
+
+  bind();
+  document.addEventListener('astro:page-load', bind);
+</script>

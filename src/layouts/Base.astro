@@ -1,0 +1,105 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import { profile } from '../data/resume';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Set on the resume page so search engines prefer the homepage. */
+  noindex?: boolean;
+}
+
+const {
+  title = `${profile.name} — ${profile.title}`,
+  description = `${profile.name} is a ${profile.title} for ${profile.discipline} at ${profile.company}, leading a multi-account, multi-region Kubernetes and AWS platform under FedRAMP, SOC 2, HIPAA, PCI DSS and DoD IL5 audit.`,
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// JSON-LD Person schema. This is how Google builds a knowledge panel and how
+// several recruiting tools resolve identity — worth the few lines.
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: `${profile.title}, ${profile.discipline}`,
+  email: `mailto:${profile.email}`,
+  url: Astro.site?.href,
+  worksFor: { '@type': 'Organization', name: profile.company },
+  address: { '@type': 'PostalAddress', addressLocality: 'Minneapolis', addressRegion: 'MN', addressCountry: 'US' },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'California State University, Fullerton' },
+    { '@type': 'CollegeOrUniversity', name: 'K.J. Somaiya College of Engineering, University of Mumbai' },
+  ],
+  knowsAbout: [
+    'Kubernetes',
+    'Amazon Web Services',
+    'Platform Engineering',
+    'Site Reliability Engineering',
+    'Terraform',
+    'Go',
+    'AIOps',
+    'Engineering Management',
+    'FedRAMP',
+  ],
+  sameAs: [profile.links.linkedin, profile.links.github],
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Set the theme before first paint so there is no light/dark flash.
+         Inline and synchronous on purpose; it is three lines and must not be
+         deferred. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          var theme = stored || (prefersLight ? 'light' : 'dark');
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          /* localStorage unavailable (private mode) — dark default is fine. */
+        }
+      })();
+    </script>
+
+    <set:html value={`<script type="application/ld+json">${JSON.stringify(personSchema)}</script>`} />
+    <ClientRouter />
+  </head>
+
+  <body class="min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-500 focus:px-4 focus:py-2 focus:text-white"
+    >
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

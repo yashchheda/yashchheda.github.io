@@ -1,0 +1,49 @@
+---
+import { terminalLines } from '../data/resume';
+
+/**
+ * Static terminal card. Deliberately not an emulator and not a typewriter
+ * animation: fake shells that gate real content frustrate non-technical
+ * readers, and typed-out text is unreadable to screen readers and to anyone
+ * who scrolls fast. This renders instantly, is fully selectable, and costs
+ * zero JavaScript.
+ */
+---
+
+<div
+  class="overflow-hidden rounded-xl border border-line bg-surface shadow-2xl shadow-black/20"
+  role="img"
+  aria-label="Terminal window summarising platform scope: 100+ Kubernetes clusters across 25+ AWS accounts, compliance posture including FedRAMP, SOC 2, HIPAA, PCI DSS and DoD IL5, and the Stratus migration."
+>
+  <!-- Title bar -->
+  <div class="flex items-center gap-2 border-b border-line bg-raised px-4 py-2.5">
+    <span class="size-2.5 rounded-full bg-[#ff5f57]" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-[#febc2e]" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-[#28c840]" aria-hidden="true"></span>
+    <span class="ml-2 font-mono text-[11px] text-faint">yash@platform — zsh</span>
+  </div>
+
+  <!-- Body. aria-hidden because the wrapper carries an accessible summary. -->
+  <div class="space-y-1 p-4 font-mono text-[12.5px] leading-relaxed sm:p-5 sm:text-[13px]" aria-hidden="true">
+    {
+      terminalLines.map((line) => (
+        <div class="flex gap-2">
+          {'prompt' in line && line.prompt ? (
+            <>
+              <span class="shrink-0 select-none text-brand-400">❯</span>
+              <span class="min-w-0 break-words text-ink">{line.text}</span>
+            </>
+          ) : (
+            <span class={`min-w-0 break-words pl-4 ${'status' in line && line.status === 'ok' ? 'text-signal' : 'text-muted'}`}>
+              {line.text}
+            </span>
+          )}
+        </div>
+      ))
+    }
+    <div class="flex gap-2 pt-1">
+      <span class="shrink-0 select-none text-brand-400">❯</span>
+      <span class="inline-block h-[1.05em] w-[7px] translate-y-[2px] bg-brand-300/80 motion-safe:animate-pulse"></span>
+    </div>
+  </div>
+</div>

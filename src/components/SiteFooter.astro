@@ -1,0 +1,32 @@
+---
+import { profile } from '../data/resume';
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-line">
+  <div
+    class="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-10 text-sm text-faint sm:flex-row sm:items-center sm:justify-between sm:px-8"
+  >
+    <p class="font-mono text-xs">
+      © {year} {profile.name} · {profile.location}
+    </p>
+    <ul class="flex flex-wrap items-center gap-x-5 gap-y-2">
+      <li>
+        <a class="transition-colors hover:text-brand-300" href={`mailto:${profile.email}`}>Email</a>
+      </li>
+      <li>
+        <a class="transition-colors hover:text-brand-300" href={profile.links.linkedin} rel="me noopener" target="_blank"
+          >LinkedIn</a
+        >
+      </li>
+      <li>
+        <a class="transition-colors hover:text-brand-300" href={profile.links.github} rel="me noopener" target="_blank"
+          >GitHub</a
+        >
+      </li>
+      <li>
+        <a class="transition-colors hover:text-brand-300" href={profile.resumePdf}>Résumé (PDF)</a>
+      </li>
+    </ul>
+  </div>
+</footer>

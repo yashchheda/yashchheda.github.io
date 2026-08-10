@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  profile,
+  summary,
+  experience,
+  earlierExperience,
+  skills,
+  education,
+  certifications,
+} from '../data/resume';
+
+/**
+ * A crawlable HTML résumé. The PDF is the artefact people file; this page is
+ * what Google and keyword-matching tools actually read. Same data source as
+ * the homepage, so the two can never disagree.
+ */
+---
+
+<Base title={`Résumé — ${profile.name}`} description={`Full résumé for ${profile.name}, ${profile.title}.`}>
+  <article class="mx-auto max-w-3xl px-5 py-14 sm:px-8">
+    <!-- Header -->
+    <header class="border-b border-line pb-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-semibold tracking-tight text-ink">{profile.name}</h1>
+          <p class="mt-1 text-[15px] text-brand-300">{profile.title} — {profile.discipline}</p>
+        </div>
+        <a
+          href={profile.resumePdf}
+          class="no-print rounded-lg border border-line px-3.5 py-2 text-sm text-ink transition-colors hover:border-brand-500/60 hover:bg-surface"
+        >
+          PDF ↓
+        </a>
+      </div>
+      <p class="mt-4 flex flex-wrap gap-x-3 gap-y-1 break-words font-mono text-xs text-faint">
+        <span>{profile.location}</span><span aria-hidden="true">·</span>
+        <a class="hover:text-brand-300" href={`mailto:${profile.email}`}>{profile.email}</a><span aria-hidden="true"
+          >·</span
+        >
+        <a class="hover:text-brand-300" href={profile.links.linkedin}>linkedin.com/in/chhedayash</a><span
+          aria-hidden="true">·</span
+        >
+        <a class="hover:text-brand-300" href={profile.links.github}>github.com/yashchheda</a>
+      </p>
+    </header>
+
+    <!-- Summary -->
+    <section class="mt-8">
+      <h2 class="eyebrow">Summary</h2>
+      <div class="mt-3 space-y-3">
+        {summary.map((p) => <p class="text-[14.5px] leading-relaxed text-muted">{p}</p>)}
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="mt-10">
+      <h2 class="eyebrow">Experience</h2>
+      <div class="mt-4 space-y-9">
+        {
+          experience.map((employer) => (
+            <div>
+              <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+                <h3 class="text-[16px] font-semibold text-ink">
+                  {employer.company}
+                  {employer.note && <span class="ml-1.5 text-[13px] font-normal text-faint">({employer.note})</span>}
+                </h3>
+                <p class="font-mono text-[11.5px] text-faint">
+                  {employer.start} – {employer.end}
+                </p>
+              </div>
+              <p class="font-mono text-[11.5px] text-faint">{employer.location}</p>
+
+              <div class="mt-4 space-y-6">
+                {employer.roles.map((role) => (
+                  <div>
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3">
+                      <h4 class="text-[14.5px] font-semibold text-brand-300">{role.title}</h4>
+                      <p class="font-mono text-[11.5px] text-faint">
+                        {role.start} – {role.end}
+                      </p>
+                    </div>
+                    {role.scope && <p class="mt-1.5 text-[14px] leading-relaxed text-muted">{role.scope}</p>}
+                    <ul class="mt-2 space-y-1.5">
+                      {role.bullets.map((b) => (
+                        <li class="flex gap-2.5 text-[13.5px] leading-relaxed text-muted">
+                          <span class="mt-[7px] size-1 shrink-0 rounded-full bg-brand-500" aria-hidden="true" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Earlier -->
+    <section class="mt-10">
+      <h2 class="eyebrow">Earlier experience</h2>
+      <ul class="mt-3 space-y-2.5">
+        {
+          earlierExperience.map((job) => (
+            <li class="text-[13.5px] leading-relaxed text-muted">
+              <span class="font-semibold text-ink">{job.company}</span> — {job.role}, {job.location} ({job.period}).{' '}
+              {job.detail}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Skills -->
+    <section class="mt-10">
+      <h2 class="eyebrow">Skills</h2>
+      <dl class="mt-3 space-y-2">
+        {
+          skills.map((group) => (
+            <div class="grid gap-0.5 sm:grid-cols-[170px_1fr] sm:gap-3">
+              <dt class="text-[13.5px] font-semibold text-ink">{group.label}</dt>
+              <dd class="text-[13.5px] leading-relaxed text-muted">{group.items.join(' · ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <!-- Education & certs -->
+    <section class="mt-10">
+      <h2 class="eyebrow">Education & certifications</h2>
+      <ul class="mt-3 space-y-2">
+        {
+          education.map((e) => (
+            <li class="flex flex-wrap items-baseline justify-between gap-x-3 text-[13.5px]">
+              <span class="text-muted">
+                <span class="font-semibold text-ink">{e.degree}</span> — {e.school}
+              </span>
+              <span class="font-mono text-[11.5px] text-faint">
+                {e.period} · {e.location}
+              </span>
+            </li>
+          ))
+        }
+        <li class="pt-1 text-[13.5px] text-muted">
+          {
+            certifications
+              .map((c) => ('year' in c && c.year ? `${c.name} (${c.year})` : c.name))
+              .join(' · ')
+          }
+        </li>
+      </ul>
+    </section>
+  </article>
+</Base>

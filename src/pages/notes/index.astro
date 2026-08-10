@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base title="Notes — Yash Chheda" description="Notes on Kubernetes platform engineering, AIOps and running infrastructure under audit.">
+  <div class="mx-auto max-w-3xl px-5 py-14 sm:px-8">
+    <p class="eyebrow">Notes</p>
+    <h1 class="mt-2 text-3xl font-semibold tracking-tight text-ink">Writing</h1>
+    <p class="mt-3 max-w-xl text-[15px] leading-relaxed text-muted">
+      Notes on Kubernetes platform engineering, reducing operational toil, and shipping quickly inside a continuously
+      audited environment.
+    </p>
+
+    {
+      notes.length === 0 ? (
+        <p class="mt-10 rounded-xl border border-line bg-surface p-6 text-[14.5px] text-muted">
+          Nothing published yet.
+        </p>
+      ) : (
+        <ul class="mt-10 divide-y divide-line border-t border-line">
+          {notes.map((note) => (
+            <li class="reveal py-5">
+              <a href={`/notes/${note.id}`} class="group block">
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h2 class="text-[16px] font-semibold text-ink transition-colors group-hover:text-brand-300">
+                    {note.data.title}
+                  </h2>
+                  <time datetime={note.data.date.toISOString()} class="font-mono text-[11.5px] text-faint">
+                    {note.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </time>
+                </div>
+                <p class="mt-1.5 text-[14px] leading-relaxed text-muted">{note.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</Base>
