@@ -10,15 +10,22 @@ interface Props {
   description?: string;
   /** Set on the resume page so search engines prefer the homepage. */
   noindex?: boolean;
+  /** Share-card image, root-relative. Override per page if one ever needs its own. */
+  ogImage?: string;
 }
 
 const {
   title = `${profile.name} — ${profile.title}`,
   description = `${profile.name} is a ${profile.title} for ${profile.discipline} at ${profile.company}, leading a multi-account, multi-region Kubernetes and AWS platform under FedRAMP, SOC 2, HIPAA, PCI DSS and DoD IL5 audit.`,
   noindex = false,
+  ogImage = '/og.png',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// Scrapers ignore relative image paths, so this has to be absolute. Generated
+// from `site` rather than hardcoded so a domain move needs no edit here.
+const ogImageUrl = new URL(ogImage, Astro.site).href;
 
 // JSON-LD Person schema. This is how Google builds a knowledge panel and how
 // several recruiting tools resolve identity — worth the few lines.
@@ -64,7 +71,16 @@ const personSchema = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content={`${profile.name} — ${profile.title}, ${profile.discipline} at ${profile.company}`}
+    />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />

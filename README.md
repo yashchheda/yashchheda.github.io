@@ -23,6 +23,28 @@ The PDF résumé at `public/Yash_Chheda_Resume.pdf` is generated separately from
 the LaTeX sources in `~/resume-latex/` (`tectonic -X compile main.tex`). If you
 change a fact, change it in both places.
 
+## Social share card
+
+`public/og.png` is the Open Graph image — the preview shown when the site is
+linked in Slack, LinkedIn, iMessage and similar. It is referenced by `og:image`
+in `src/components/../layouts/Base.astro`, which builds an absolute URL from
+`site`, so a domain move needs no edit there.
+
+The image is rendered from `scripts/og-card.html`, committed so the card stays
+editable instead of being an unexplained binary. To regenerate after editing:
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --hide-scrollbars --allow-file-access-from-files \
+  --force-device-scale-factor=1 --window-size=1200,630 \
+  --screenshot="$PWD/public/og.png" "file://$PWD/scripts/og-card.html"
+```
+
+1200×630 is the Open Graph standard; keep it. The card duplicates the palette
+and fonts from `src/styles/global.css` because it renders outside Astro and
+cannot import the theme tokens — if the brand colour changes there, change it
+in the card too and re-render.
+
 ## Publishing notes
 
 - The internal GitLab host must never appear in this repo. Platform scale
