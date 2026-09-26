@@ -83,7 +83,18 @@ const personSchema = {
     <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- iOS ignores SVG favicons for home-screen bookmarks and composites onto
+         black, so it needs its own opaque PNG. Source and regeneration command:
+         scripts/apple-touch-icon.svg and the README. -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <!-- Matches --c-canvas so mobile browser chrome does not sit light against
+         the dark page. Only the dark value: the site defaults to dark, and a
+         media-scoped pair here would disagree with the localStorage override
+         below whenever a visitor has chosen the non-system theme. -->
+    <meta name="theme-color" content="#080b10" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${profile.name} — Notes`} href="/rss.xml" />
 
     <!-- Set the theme before first paint so there is no light/dark flash.
          Inline and synchronous on purpose; it is three lines and must not be

@@ -1,0 +1,21 @@
+{
+  "name": "Yash Chheda — Software Engineering Manager",
+  "short_name": "Yash Chheda",
+  "description": "Platform engineering, cloud cost and compliance at scale.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#080b10",
+  "theme_color": "#080b10",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,6 +1,14 @@
 ---
 import { profile } from '../data/resume';
 const year = new Date().getFullYear();
+
+// Build date, not render date: this is a static site, so it is stamped at
+// `astro build` and is therefore an honest "last updated". The previous version
+// of this site silently drifted four years out of date; a date that is derived
+// rather than hand-written cannot repeat that.
+const built = new Date();
+const builtISO = built.toISOString();
+const builtLabel = built.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 ---
 
 <footer class="mt-24 border-t border-line">
@@ -8,7 +16,7 @@ const year = new Date().getFullYear();
     class="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-10 text-sm text-faint sm:flex-row sm:items-center sm:justify-between sm:px-8"
   >
     <p class="font-mono text-xs">
-      © {year} {profile.name} · {profile.location}
+      © {year} {profile.name} · {profile.location} · updated <time datetime={builtISO}>{builtLabel}</time>
     </p>
     <ul class="flex flex-wrap items-center gap-x-5 gap-y-2">
       <li>
