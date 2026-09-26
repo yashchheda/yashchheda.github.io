@@ -27,8 +27,11 @@ change a fact, change it in both places.
 
 `public/og.png` is the Open Graph image — the preview shown when the site is
 linked in Slack, LinkedIn, iMessage and similar. It is referenced by `og:image`
-in `src/components/../layouts/Base.astro`, which builds an absolute URL from
-`site`, so a domain move needs no edit there.
+in `src/layouts/Base.astro`, which builds an absolute URL from `site`, so a
+domain move needs no edit there.
+
+Note the card also renders the domain as **visible text** in its footer, so a
+domain move does require editing `scripts/og-card.html` and re-rendering.
 
 The image is rendered from `scripts/og-card.html`, committed so the card stays
 editable instead of being an unexplained binary. To regenerate after editing:
@@ -54,23 +57,37 @@ in the card too and re-render.
 
 ## Deployment
 
-Not wired up yet — `npm run build` produces `dist/`, which is what GitHub Pages
-needs to serve. Two options when you're ready:
+Deployed by `.github/workflows/deploy.yml` on push to `master` (or manual
+`workflow_dispatch`). Pages source is set to "GitHub Actions"; nothing built is
+committed. The workflow runs `npm ci`, then `npm run check`, then
+`npm run build`, and uploads `dist/` as the Pages artifact.
 
-1. **GitHub Actions** (recommended): add the `withastro/action` workflow and set
-   Pages source to "GitHub Actions". Nothing built gets committed.
-2. **Commit the output**: build locally and commit `dist/` contents to the branch
-   Pages serves. Remove `dist/` from `.gitignore` first.
+Feature branches deliberately do not deploy — a branch build would publish
+unreviewed content to the live site.
 
 ## Custom domain
 
-`.dev` domains are **not** free (~$12–15/year). When you buy one:
+Live on **https://yashchheda.is-a.dev** (a free `.is-a.dev` subdomain, granted
+via the `is-a-dev/register` repo). `yashchheda.github.io` 301-redirects to it.
 
-1. add `public/CNAME` containing the bare domain, e.g. `yashchheda.dev`
-2. update `site` in `astro.config.mjs`
+Four files carry the origin. `site` alone is not enough:
 
-Nothing else hardcodes the origin. `.dev` is HSTS-preloaded, so HTTPS is
-mandatory — GitHub Pages handles that.
+1. `site` in `astro.config.mjs` — derives canonical, `og:url`, `og:image`, sitemap
+2. `public/CNAME` — the bare domain. **Must match the Pages setting exactly**, or
+   the deploy can change or clear the custom domain
+3. `public/robots.txt` — the absolute `Sitemap:` URL
+4. `scripts/og-card.html` — renders the domain as visible text into `public/og.png`,
+   so the card must be re-rendered (see above)
+
+Verify after any domain change:
+
+```bash
+gh api repos/yashchheda/yashchheda.github.io/pages --jq '{cname,https_enforced,status}'
+curl -sI https://yashchheda.is-a.dev/ | head -1
+curl -s https://yashchheda.is-a.dev/ | grep -o '<link rel="canonical"[^>]*>'
+```
+
+`.is-a.dev` is HSTS-preloaded, so HTTPS is mandatory — GitHub Pages handles that.
 
 ## Notes / writing
 

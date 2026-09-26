@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yashchheda.github.io/sitemap-index.xml
+Sitemap: https://yashchheda.is-a.dev/sitemap-index.xml
