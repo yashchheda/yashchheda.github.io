@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+
+// GitHub Pages serves /404.html for any unmatched path on a custom domain, so
+// this single file covers the whole site. noindex because a soft 404 in the
+// index is worse than no result: GitHub Pages returns a real 404 status here,
+// and we do not want the page itself ranking for anything.
+---
+
+<Base
+  title="Page not found — Yash Chheda"
+  description="That page does not exist."
+  noindex={true}
+>
+  <div class="mx-auto max-w-3xl px-5 py-20 sm:px-8">
+    <p class="eyebrow">404</p>
+    <h1 class="mt-2 text-3xl font-semibold tracking-tight text-ink">Page not found</h1>
+    <p class="mt-3 max-w-xl text-[15px] leading-relaxed text-muted">
+      That URL does not exist. It may have moved, or never existed — this site was rebuilt in
+      2026 and the old Bootstrap-era paths did not survive.
+    </p>
+
+    <ul class="mt-10 divide-y divide-line border-t border-line">
+      <li class="py-5">
+        <a href="/" class="group block">
+          <h2 class="text-[16px] font-semibold text-ink transition-colors group-hover:text-brand-300">Home</h2>
+          <p class="mt-1.5 text-[14px] leading-relaxed text-muted">
+            Focus areas, experience and skills.
+          </p>
+        </a>
+      </li>
+      <li class="py-5">
+        <a href="/resume" class="group block">
+          <h2 class="text-[16px] font-semibold text-ink transition-colors group-hover:text-brand-300">Résumé</h2>
+          <p class="mt-1.5 text-[14px] leading-relaxed text-muted">
+            Full experience, on one page.
+          </p>
+        </a>
+      </li>
+      <li class="py-5">
+        <a href="/notes" class="group block">
+          <h2 class="text-[16px] font-semibold text-ink transition-colors group-hover:text-brand-300">Notes</h2>
+          <p class="mt-1.5 text-[14px] leading-relaxed text-muted">
+            Writing on platform engineering and running infrastructure under audit.
+          </p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</Base>

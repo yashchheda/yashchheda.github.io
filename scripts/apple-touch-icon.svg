@@ -1,0 +1,22 @@
+<!--
+  Source for public/apple-touch-icon.png (180x180).
+
+  Deliberately full-bleed with square corners, unlike public/favicon.svg: iOS
+  applies its own rounded mask to home-screen icons, so rounded corners here
+  would show as dark artefacts outside Apple's mask. There is also no
+  transparency, because iOS composites touch icons onto black.
+
+  Palette duplicated from src/styles/global.css (tokens c-canvas,
+  color-brand-500, color-brand-300) because this renders outside Astro and
+  cannot import the theme tokens. If the brand colour changes there, change it
+  here and re-render. Regeneration command is in the README.
+
+  Note: no double hyphen may appear in this comment. XML forbids it, and Chrome
+  will render a parse error instead of the icon.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <rect width="180" height="180" fill="#080b10"/>
+  <rect x="10" y="10" width="160" height="160" rx="30" fill="none" stroke="#2c5f8a" stroke-width="8"/>
+  <text x="90" y="118" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="76"
+        font-weight="700" fill="#7fb3d9" text-anchor="middle">YC</text>
+</svg>
