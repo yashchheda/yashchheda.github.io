@@ -128,15 +128,15 @@ export const experience: Employer[] = [
         bullets: [
           'Drove AIOps-based automation of operational toil, cutting manual operational interventions ~35% and reducing MTTR ~40% — capacity returned directly to roadmap delivery.',
           'Lead cloud cost optimization across the fleet, delivering ~$1M in annual savings by tying capacity planning to growth forecasts rather than reactive scaling.',
-          'Upgraded 100+ clusters across 25 regions through [[TBC:4]] Kubernetes minor versions in [[TBC:18]] months with zero customer-facing downtime, using staged rollout and automated pre-flight validation.',
+          'Upgraded 100+ clusters across 25 regions through 4 Kubernetes minor versions in 18 months with zero customer-facing downtime, using staged rollout and automated pre-flight validation.',
           'Moved fleet configuration onto GitOps reconciliation, replacing imperative cluster changes with declarative desired state that is reviewed before it lands and auditable after it does.',
           'Extended the software supply chain with SBOM generation, container image signing and policy-as-code admission control, so provenance is enforced at deploy time rather than attested after the fact.',
-          'Sustain audit readiness across FedRAMP Moderate/High, SOC 2, HIPAA, PCI DSS and DoD IL5 through platform and OS hardening (CIS Level 1 benchmarks), FIPS 140-3 validated cryptography, and control evidence — [[TBC:3]] assessments a year with [[TBC:zero]] platform findings.',
-          'Brought AI workloads onto the platform: GPU node pool topology, scheduling and autoscaling for inference serving, lifting GPU utilization from [[TBC:~30%]] to [[TBC:~65%]] by sizing against real model traffic instead of peak provisioning.',
+          'Sustain audit readiness across FedRAMP Moderate/High, SOC 2, HIPAA, PCI DSS and DoD IL5 through platform and OS hardening (CIS Level 1 benchmarks), FIPS 140-3 validated cryptography, and control evidence — 3 assessments a year with zero platform findings.',
+          'Brought AI workloads onto the platform: GPU node pool topology, scheduling and autoscaling for inference serving, lifting GPU utilization from ~30% to ~65% by sizing against real model traffic instead of peak provisioning.',
           'Extended the audited boundary to cover those AI workloads — approved model inventory, retention rules for prompts and responses, and egress control on model calls — so AI features ship under the same FedRAMP and IL5 controls as everything else.',
-          'Matured FinOps practice from account-level reporting to workload-level unit economics, holding commitment coverage at [[TBC:~85%]] and an effective savings rate of [[TBC:~30%]], with spend shown back to owning teams.',
-          'Raised platform delivery cadence from [[TBC:fortnightly]] to [[TBC:daily]] releases while holding change failure rate under [[TBC:5%]], across quarterly cycles with product, SRE and security stakeholders.',
-          'Grew the team to 10 engineers with [[TBC:3]] internal promotions and [[TBC:zero]] regrettable departures, and cut new-engineer time to first production change from [[TBC:6]] to [[TBC:3]] weeks, while staying active in architecture and design review.',
+          'Matured FinOps practice from account-level reporting to workload-level unit economics, holding commitment coverage at ~85% and an effective savings rate of ~30%, with spend shown back to owning teams.',
+          'Raised platform delivery cadence from fortnightly to daily releases while holding change failure rate under 5%, owning delivery across quarterly cycles with product, SRE and security stakeholders.',
+          'Grew the team to 10 engineers with 3 internal promotions and zero regrettable departures, and cut new-engineer time to first production change from 6 weeks to 3, while staying active in architecture and design review.',
         ],
       },
       {
@@ -146,7 +146,7 @@ export const experience: Employer[] = [
         scope:
           'Technical lead, Agile squad coach and mentor for the cloud platform team through the multi-year Stratus migration.',
         bullets: [
-          'Served as one of the technical leads on the Stratus cloud migration, moving [[TBC:400+]] customer sites off legacy infrastructure onto Kubernetes-native infrastructure over [[TBC:~3]] years — a programme spanning multiple squads.',
+          'Served as one of the technical leads on the Stratus cloud migration, moving 400+ customer sites off legacy infrastructure onto Kubernetes-native infrastructure over ~3 years — a programme spanning multiple squads.',
           'Mentored 4 engineers through weekly 1:1s focused on professional growth, and contributed to staffing, capacity planning and onboarding across the platform organisation.',
           'Served as Agile squad coach — sprint planning, estimation, reviews and retrospectives — while remaining a hands-on contributor in Go and Terraform.',
           'Acted as escalation point for high-visibility production incidents, converting findings into automation and runbooks instead of tribal knowledge.',
