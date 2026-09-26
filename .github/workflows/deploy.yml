@@ -55,6 +55,13 @@ jobs:
       - name: Type check
         run: npm run check
 
+      # Blocks deployment while any [[TBC:...]] marker remains in src/. Those
+      # markers hold illustrative résumé metrics that are plausible but not
+      # true; publishing one would misrepresent the author to employers. Its own
+      # step so the failure is unmistakable rather than a confusing build error.
+      - name: Check for unresolved content placeholders
+        run: npm run check:placeholders
+
       - name: Build
         run: npm run build
 
