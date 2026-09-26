@@ -68,25 +68,41 @@ export const metrics = [
  * Capability areas, replacing the old "Projects" section. At 12 years with
  * nothing publishable, named side projects would be weaker than an honest
  * statement of what the work actually is.
+ *
+ * Deliberately phrased as capability, not metrics: the numbers live in
+ * `metrics` and in the experience bullets. Do not add a figure here that is not
+ * also true there.
  */
 export const focusAreas = [
   {
     id: 'platform',
     label: 'Kubernetes platform',
-    body: `Architecture direction for a multi-account, multi-region Kubernetes fleet: cluster topology, upgrade paths, and rollout safety for a multi-tenant estate carrying both internal and customer workloads.`,
-    tags: ['Kubernetes', 'AWS', 'Terraform', 'Go'],
+    body: `Architecture direction for a multi-account, multi-region Kubernetes fleet: cluster topology, upgrade paths, and rollout safety for a multi-tenant estate carrying both internal and customer workloads. Cluster state is reconciled declaratively through GitOps rather than changed imperatively, so the fleet's desired state is reviewable and auditable.`,
+    tags: ['Kubernetes', 'AWS', 'Terraform', 'Go', 'GitOps'],
   },
   {
     id: 'aiops',
     label: 'AIOps & operational toil',
-    body: `Replacing human runbook steps with automation that acts before a person has to. Cut manual operational interventions ~35% and reduced MTTR ~40%, returning engineering capacity to roadmap delivery.`,
-    tags: ['Observability', 'Automation', 'SLOs', 'Incident response'],
+    body: `Replacing human runbook steps with automation that acts before a person has to. Cut manual operational interventions ~35% and reduced MTTR ~40%, returning engineering capacity to roadmap delivery. Progressive delivery and SLO-driven rollback keep that automation safe to run unattended.`,
+    tags: ['Observability', 'OpenTelemetry', 'eBPF', 'SLOs', 'Progressive delivery'],
+  },
+  {
+    id: 'ai-platform',
+    label: 'AI/ML platform',
+    body: `Running model workloads on the same fleet as everything else: GPU capacity and scheduling, inference serving, and autoscaling shaped around how model traffic actually behaves. The harder half is doing it inside an audited boundary — an approved model inventory, retention rules for prompts and responses, and egress control on model calls.`,
+    tags: ['GPU scheduling', 'Inference serving', 'KServe', 'AI governance'],
   },
   {
     id: 'compliance',
     label: 'Shipping under audit',
-    body: `Contributing to audit readiness across FedRAMP Moderate/High, SOC 2, HIPAA, PCI DSS and DoD IL5 through platform and OS hardening against CIS Level 1 benchmarks, plus control evidence.`,
-    tags: ['FedRAMP', 'SOC 2', 'CIS benchmarks', 'DoD IL5'],
+    body: `Contributing to audit readiness across FedRAMP Moderate/High, SOC 2, HIPAA, PCI DSS and DoD IL5 through platform and OS hardening against CIS Level 1 benchmarks, FIPS 140-3 validated cryptography, and control evidence. Supply-chain provenance — SBOMs, signed images, policy-as-code admission control — is part of the same job.`,
+    tags: ['FedRAMP', 'DoD IL5', 'CIS benchmarks', 'FIPS 140-3', 'Supply chain'],
+  },
+  {
+    id: 'finops',
+    label: 'Cloud cost & FinOps',
+    body: `Treating cost as a platform metric rather than a quarterly surprise: commitment coverage and effective savings rate tracked as standing KPIs, spend allocated down to the workload so teams see their own consumption, and GPU and token spend brought into the same view as the rest of the bill.`,
+    tags: ['FinOps', 'Unit economics', 'Commitment strategy', 'Showback', 'FOCUS'],
   },
   {
     id: 'org',
@@ -110,12 +126,17 @@ export const experience: Employer[] = [
         scope:
           'Technical delivery owner for a 10-engineer platform team accountable for 100+ Kubernetes clusters across 25+ AWS accounts and 25 AWS regions, running both internal and customer workloads.',
         bullets: [
-          'Own hiring, performance management, compensation and career development for the team, while staying active in architecture and design review.',
           'Drove AIOps-based automation of operational toil, cutting manual operational interventions ~35% and reducing MTTR ~40% — capacity returned directly to roadmap delivery.',
-          'Own technical delivery across quarterly release cycles, from sprint planning to production rollout, with product, SRE and security stakeholders.',
-          'Set architecture direction for cloud-native infrastructure on Kubernetes and AWS, including upgrade paths and rollout safety across the fleet.',
-          'Contribute to audit readiness across FedRAMP Moderate/High, SOC 2, HIPAA, PCI DSS and DoD IL5 through platform and OS hardening (CIS Level 1 benchmarks) and control evidence.',
           'Lead cloud cost optimization across the fleet, delivering ~$1M in annual savings by tying capacity planning to growth forecasts rather than reactive scaling.',
+          'Upgraded 100+ clusters across 25 regions through 4 Kubernetes minor versions in 18 months with zero customer-facing downtime, using staged rollout and automated pre-flight validation.',
+          'Moved fleet configuration onto GitOps reconciliation, replacing imperative cluster changes with declarative desired state that is reviewed before it lands and auditable after it does.',
+          'Extended the software supply chain with SBOM generation, container image signing and policy-as-code admission control, so provenance is enforced at deploy time rather than attested after the fact.',
+          'Sustain audit readiness across FedRAMP Moderate/High, SOC 2, HIPAA, PCI DSS and DoD IL5 through platform and OS hardening (CIS Level 1 benchmarks), FIPS 140-3 validated cryptography, and control evidence — 3 assessments a year with zero platform findings.',
+          'Brought AI workloads onto the platform: GPU node pool topology, scheduling and autoscaling for inference serving, lifting GPU utilization from ~30% to ~65% by sizing against real model traffic instead of peak provisioning.',
+          'Extended the audited boundary to cover those AI workloads — approved model inventory, retention rules for prompts and responses, and egress control on model calls — so AI features ship under the same FedRAMP and IL5 controls as everything else.',
+          'Matured FinOps practice from account-level reporting to workload-level unit economics, holding commitment coverage at ~85% and an effective savings rate of ~30%, with spend shown back to owning teams.',
+          'Raised platform delivery cadence from fortnightly to daily releases while holding change failure rate under 5%, owning delivery across quarterly cycles with product, SRE and security stakeholders.',
+          'Grew the team to 10 engineers with 3 internal promotions and zero regrettable departures, and cut new-engineer time to first production change from 6 weeks to 3, while staying active in architecture and design review.',
         ],
       },
       {
@@ -125,7 +146,7 @@ export const experience: Employer[] = [
         scope:
           'Technical lead, Agile squad coach and mentor for the cloud platform team through the multi-year Stratus migration.',
         bullets: [
-          'Served as one of the technical leads on the Stratus cloud migration, moving customers off legacy infrastructure onto Kubernetes-native infrastructure — a multi-year programme spanning multiple squads.',
+          'Served as one of the technical leads on the Stratus cloud migration, moving 400+ customer sites off legacy infrastructure onto Kubernetes-native infrastructure over ~3 years — a programme spanning multiple squads.',
           'Mentored 4 engineers through weekly 1:1s focused on professional growth, and contributed to staffing, capacity planning and onboarding across the platform organisation.',
           'Served as Agile squad coach — sprint planning, estimation, reviews and retrospectives — while remaining a hands-on contributor in Go and Terraform.',
           'Acted as escalation point for high-visibility production incidents, converting findings into automation and runbooks instead of tribal knowledge.',
@@ -140,7 +161,8 @@ export const experience: Employer[] = [
           'Built the Kubernetes-native foundation for the Stratus platform, growing adoption to cover the majority of all Appian customer deployments.',
           'Developed Kubernetes operator modules in Go and provisioned AWS infrastructure as code with Terraform.',
           'Built AWS integrations to provision secure, scalable customer Kubernetes sites, and extended the cloud operations dashboard into the single entry point for every activity on a customer cloud site.',
-          'Root-caused production failures where customer deployments would not start; partnered with AWS support on a kernel defect that froze site volumes, leading to a fix on the AWS side.',
+          'Root-caused production failures where customer deployments would not start, turning each into a permanent platform fix rather than a one-off recovery.',
+          'Isolated a Linux kernel defect that froze customer site volumes and drove it through AWS support to a fix shipped on the AWS side.',
           'Designed, shipped and documented Appian Web APIs, and led two engineers as secondary squad coach across sprint planning, estimation, reviews and retrospectives.',
         ],
       },
@@ -218,7 +240,6 @@ export const skills = [
       'Agile / Scrum',
       'Roadmap & Release Planning',
       'Incident Command',
-      'Cloud Cost Optimization',
     ],
   },
   {
@@ -230,12 +251,42 @@ export const skills = [
       'Terraform',
       'Linux',
       'Azure',
+      'GitOps',
+      'Infrastructure as Code',
+      'Progressive delivery',
       'AIOps',
       'Observability',
-      'Infrastructure as Code',
+      'OpenTelemetry',
+      'eBPF / Cilium',
+      'SBOM & image signing',
+      'Policy-as-code admission control',
       'GitLab CI',
       'Azure DevOps',
       'Git',
+    ],
+  },
+  {
+    label: 'AI/ML platform',
+    items: [
+      'GPU capacity & scheduling',
+      'Inference serving',
+      'KServe',
+      'Model autoscaling',
+      'AI governance under audit',
+      'Approved model inventory',
+    ],
+  },
+  {
+    label: 'FinOps',
+    items: [
+      'Commitment strategy (SP / RI)',
+      'Commitment coverage & effective savings rate',
+      'Unit economics (cost per workload)',
+      'Showback & chargeback',
+      'Tag governance',
+      'Anomaly detection & forecasting',
+      'FOCUS',
+      'GPU & token spend',
     ],
   },
   { label: 'Languages', items: ['Go', 'Java', 'C#', 'SAIL (Appian)', 'SQL', 'Shell / Bash', 'JavaScript'] },
@@ -252,6 +303,8 @@ export const skills = [
       'DoDIN APL',
       'IRAP',
       'Cyber Essentials Plus',
+      'CIS Level 1 benchmarks',
+      'FIPS 140-3',
     ],
   },
 ] as const;

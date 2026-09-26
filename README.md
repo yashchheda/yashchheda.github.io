@@ -12,6 +12,23 @@ npm run preview  # serve the built output
 npm run check    # astro check (type-checks .astro templates too)
 ```
 
+## Content placeholders
+
+`src/data/resume.ts` may contain `[[TBC:value]]` markers. Each holds an
+**illustrative** metric — plausible for this platform's scale, but not verified.
+They exist so a bullet can be reviewed in shape before the real figure is known.
+
+`npm run check:placeholders` fails while any remain, and CI runs it as its own
+step before build, so a placeholder cannot reach the live site. Replace the whole
+marker including brackets with the real number, or delete the clause:
+
+```
+[[TBC:4]] Kubernetes minor versions   ->   4 Kubernetes minor versions
+```
+
+This matters more than a normal TODO: an unverified metric on a résumé is a
+misrepresentation to employers, not just stale copy. The build blocks on purpose.
+
 ## Where the content lives
 
 **`src/data/resume.ts` is the single source of truth.** Roles, bullets, metrics,
